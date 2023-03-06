@@ -1,0 +1,31 @@
+a {
+    text-decoration: none;
+}
+
+.lists {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: auto;
+    color: #fff;
+}
+
+.links {
+    font-size: 14px;
+    margin-right: 1.5rem;
+    color: #fff;
+    letter-spacing: 1px;
+
+    &:hover {
+        color: #cfcfcf;
+    }
+}
+
+.linkbtn {
+    font-size: 14px;
+    color: #fff;
+
+    &:hover {
+        color: #cfcfcf;
+    }
+}
