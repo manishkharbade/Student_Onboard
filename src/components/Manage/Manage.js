@@ -4,50 +4,48 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Manage.scss";
 import AddIcon from "@mui/icons-material/Add";
+import axios from "../AxiosConfig";
+import EducationDetails from "./EducationDetails";
 
 function Manage() {
   const navigate = useNavigate();
-  const initialValues = [
-    {
-      sfirstName: "",
-      smiddleName: "",
-      slastName: "",
-      smobNum: "",
-      semail: "",
-      gUID: "",
-      abcID: "",
-      gender: "",
-      marital: "",
-      dBirth: "",
-      idType: "",
-      idNumber: "",
-      fatherName: "",
-      fatherMobNumber: "",
-      fatherEmail: "",
-      motherName: "",
-      motherMobNumber: "",
-      motherEmail: "",
-      education: "",
-      schoolCollege: "",
-      university: "",
-      degree: "",
-      addLine1: "",
-      addLine2: "",
-      country: "",
-      state: "",
-      city: "",
-      postalCode: "",
-      cluster: "",
-      department: "",
-      course: "",
-      other1: "",
-      other2: "",
-      other3: "",
-      other4: "",
-      other5: "",
-      other6: "",
-    },
-  ];
+  const initialValues = {
+    studentId: 0,
+    uid: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    studentMobile: "",
+    emailId: "",
+    abcId: "",
+    gender: "",
+    maritialStatus: "",
+    dateOfBirth: "",
+    idType: "",
+    idNumber: "",
+    fatherName: "",
+    fatherMobile: "",
+    fatherEmail: "",
+    motherName: "",
+    motherMobile: "",
+    motherEmail: "",
+    addressLine1: "",
+    addressLine2: "",
+    country: "",
+    state: "",
+    city: "",
+    postalCode: 0,
+    cluster: "",
+    department: "",
+    course: "",
+    other1: "",
+    other2: "",
+    other3: "",
+    other4: "",
+    other5: "",
+    other6: "",
+    educationDetails: [],
+  };
 
   const [formValues, setFormValues] = useState(initialValues);
 
@@ -57,24 +55,30 @@ function Manage() {
     console.log(name, value);
   };
 
+  const EducationDetailsChange = (details) => {
+    setFormValues({ ...formValues, ["educationDetails"]: details });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formValues);
 
-    fetch("http://localhost:5183/api/Student", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(formValues),
-    })
-      .then((res) => {
-        alert("Saved Successfully!");
-        console.log(formValues);
-        navigate("/dashboard");
-      })
-      .catch((errors) => {
-        console.log(errors.message);
-      });
+    axios.post("/student", formValues).then(({ data }) => console.log(data));
 
-    // navigate("/dashboard");
+    // fetch("http://localhost:5183/api/Student", {
+    //   method: "POST",
+    //   headers: { "content-type": "application/json" },
+    //   body: JSON.ify(formValues),
+    // })
+    //   .then((res) => {
+    //     alert("Saved Successfully!");
+    //     console.log(formValues);
+    //     navigate("/dashboard");
+    //   })
+    //   .catch((errors) => {
+    //     console.log(errors.message);
+    //   });
+    navigate("/dashboard");
   };
 
   const handleCancle = (e) => {
@@ -121,37 +125,37 @@ function Manage() {
           <div>
             <Grid container spacing={2} rowGap={3}>
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="sfirstName">First Name</label>
+                <label htmlFor="firstName">First Name</label>
                 <input
                   type="text"
                   placeholder="Enter First Name"
-                  id="sfirstName"
-                  name="sfirstName"
-                  value={formValues.sfirstName}
+                  id="firstName"
+                  name="firstName"
+                  value={formValues.firstName}
                   onChange={handleChange}
                 />
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="smiddleName">Middle Name</label>
+                <label htmlFor="middleName">Middle Name</label>
                 <input
                   type="text"
                   placeholder="Enter Middle Name"
-                  id="smiddleName"
-                  name="smiddleName"
-                  value={formValues.smiddleName}
+                  id="middleName"
+                  name="middleName"
+                  value={formValues.middleName}
                   onChange={handleChange}
                 />
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="slastName">Last Name</label>
+                <label htmlFor="lastName">Last Name</label>
                 <input
                   type="text"
                   placeholder="Enter Last Name"
-                  id="slastName"
-                  name="slastName"
-                  value={formValues.slastName}
+                  id="lastName"
+                  name="lastName"
+                  value={formValues.lastName}
                   onChange={handleChange}
                 />
               </Grid>
@@ -159,37 +163,37 @@ function Manage() {
 
             <Grid container spacing={2}>
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="smobNum">Mobile Number</label>
+                <label htmlFor="studentMobile">Mobile Number</label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Enter Mobile Number"
-                  id="smobNum"
-                  name="smobNum"
-                  value={formValues.smobNum}
+                  id="studentMobile"
+                  name="studentMobile"
+                  value={formValues.studentMobile}
                   onChange={handleChange}
                 />
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="semail">Email</label>
+                <label htmlFor="emailId">Email</label>
                 <input
                   type="email"
                   placeholder="Enter Email"
-                  id="semail"
-                  name="semail"
-                  value={formValues.semail}
+                  id="emailId"
+                  name="emailId"
+                  value={formValues.emailId}
                   onChange={handleChange}
                 />
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="gUID">Generated UID</label>
+                <label htmlFor="uid">Generated UID</label>
                 <input
-                  type="number"
+                  type="text"
                   disabled
-                  id="gUID"
-                  name="gUID"
-                  value={formValues.gUID}
+                  id="uid"
+                  name="uid"
+                  value={formValues.uid}
                   onChange={handleChange}
                 />
               </Grid>
@@ -197,13 +201,13 @@ function Manage() {
 
             <Grid container spacing={2}>
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="abcID">ABC ID</label>
+                <label htmlFor="abcId">ABC ID</label>
                 <input
                   type="text"
                   placeholder="Enter ABC ID"
-                  id="abcID"
-                  name="abcID"
-                  value={formValues.abcID}
+                  id="abcId"
+                  name="abcId"
+                  value={formValues.abcId}
                   onChange={handleChange}
                 />
               </Grid>
@@ -228,25 +232,25 @@ function Manage() {
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="marital">Marital Status</label>
+                <label htmlFor="maritialStatus">Marital Status</label>
                 <input
                   type="text"
                   placeholder="Enter Marital Status"
-                  id="marital"
-                  name="marital"
-                  value={formValues.marital}
+                  id="maritialStatus"
+                  name="maritialStatus"
+                  value={formValues.maritialStatus}
                   onChange={handleChange}
                 />
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="dBirth">Date of Birth</label>
+                <label htmlFor="dateOfBirth">Date of Birth</label>
                 <input
-                  type="date"
+                  type="text"
                   placeholder="Enter Your DOB"
-                  id="dBirth"
-                  name="dBirth"
-                  value={formValues.dBirth}
+                  id="dateOfBirth"
+                  name="dateOfBirth"
+                  value={formValues.dateOfBirth}
                   onChange={handleChange}
                 />
               </Grid>
@@ -297,13 +301,13 @@ function Manage() {
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="fatherMobNumber">Mobile Number</label>
+                <label htmlFor="fatherMobile">Mobile Number</label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder=""
-                  id="fatherMobNumber"
-                  name="fatherMobNumber"
-                  value={formValues.fatherMobNumber}
+                  id="fatherMobile"
+                  name="fatherMobile"
+                  value={formValues.fatherMobile}
                   onChange={handleChange}
                 />
               </Grid>
@@ -311,7 +315,7 @@ function Manage() {
               <Grid display="flex" flexDirection="column" item xs={3}>
                 <label htmlFor="fatherEmail">Email</label>
                 <input
-                  type="email"
+                  type="text"
                   placeholder="Enter Email"
                   id="fatherEmail"
                   name="fatherEmail"
@@ -335,13 +339,13 @@ function Manage() {
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="motherMobNumber">Mobile Number</label>
+                <label htmlFor="motherMobile">Mobile Number</label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder=""
-                  id="motherMobNumber"
-                  name="motherMobNumber"
-                  value={formValues.motherMobNumber}
+                  id="motherMobile"
+                  name="motherMobile"
+                  value={formValues.motherMobile}
                   onChange={handleChange}
                 />
               </Grid>
@@ -349,7 +353,7 @@ function Manage() {
               <Grid display="flex" flexDirection="column" item xs={3}>
                 <label htmlFor="motherEmail">Email</label>
                 <input
-                  type="email"
+                  type="text"
                   placeholder="Enter Email"
                   id="motherEmail"
                   name="motherEmail"
@@ -362,81 +366,9 @@ function Manage() {
             {/* ************************* */}
 
             {/* Educational Details */}
+            <EducationDetails educationDetailsChange={EducationDetailsChange} />
             {/* *************************** */}
-            <h3>Educational Details</h3>
-            <hr style={{ marginRight: "2rem", marginBottom: "1rem" }} />
 
-            <Grid container spacing={2}>
-              <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="education">Education</label>
-                <input
-                  type="text"
-                  placeholder="Enter Education"
-                  id="education"
-                  name="education"
-                  value={formValues.education}
-                  onChange={handleChange}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={1}>
-              <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="schoolCollege">School/College</label>
-                <input
-                  type="text"
-                  placeholder="Enter School/College"
-                  id="schoolCollege"
-                  name="schoolCollege"
-                  value={formValues.schoolCollege}
-                  onChange={handleChange}
-                />
-              </Grid>
-
-              <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="university">University</label>
-                <input
-                  type="text"
-                  placeholder="Enter University"
-                  id="university"
-                  name="university"
-                  value={formValues.university}
-                  onChange={handleChange}
-                />
-              </Grid>
-
-              <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="degree">Degree</label>
-                <input
-                  type="text"
-                  placeholder="Enter Degree"
-                  id="degree"
-                  name="degree"
-                  value={formValues.degree}
-                  onChange={handleChange}
-                />
-              </Grid>
-
-              <Grid
-                item
-                alignItems="center"
-                display="flex"
-                xs={3}
-                style={{ outlineColor: "#00224B" }}
-              >
-                <Button
-                  variant="outlined"
-                  size="small"
-                  style={{
-                    textTransform: "capitalize",
-                    color: "#00224B",
-                    border: "1px Solid #00224B",
-                  }}
-                >
-                  <AddIcon /> Add Education
-                </Button>
-              </Grid>
-            </Grid>
             {/* ****************** */}
 
             {/* Address */}
@@ -446,25 +378,25 @@ function Manage() {
 
             <Grid container spacing={2}>
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="addLine1">Address Line 1</label>
+                <label htmlFor="addressLine1">Address Line 1</label>
                 <input
                   type="text"
                   placeholder="Type Address 1"
-                  id="addLine1"
-                  name="addLine1"
-                  value={formValues.addLine1}
+                  id="addressLine1"
+                  name="addressLine1"
+                  value={formValues.addressLine1}
                   onChange={handleChange}
                 />
               </Grid>
 
               <Grid display="flex" flexDirection="column" item xs={3}>
-                <label htmlFor="addLine2">Address Line 2</label>
+                <label htmlFor="addressLine2">Address Line 2</label>
                 <input
                   type="text"
                   placeholder="Type Address 2"
-                  id="addLine2"
-                  name="addLine2"
-                  value={formValues.addLine2}
+                  id="addressLine2"
+                  name="addressLine2"
+                  value={formValues.addressLine2}
                   onChange={handleChange}
                 />
               </Grid>
@@ -510,7 +442,7 @@ function Manage() {
               <Grid display="flex" flexDirection="column" item xs={3}>
                 <label htmlFor="postalCode">Zip/Postal Code</label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Enter Zip/Postal Code"
                   id="postalCode"
                   name="postalCode"

@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./Dashboard.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import axios from "./AxiosConfig";
 
 function Dashboard() {
+  const DeleteData = (id) => {
+    axios.delete("/student/" + id).then((res) => {
+      alert("Deleted Successfully...!");
+      window.location.reload();
+    });
+  };
+
   const [pageSize, setPageSize] = useState(5);
-  const [rows, setRows] = useState([]);
 
   const columns = [
-    { field: "id", headerName: "Id", width: "50" },
-    { field: "studentName", headerName: "Student Name", width: "200" },
+    { field: "studentId", headerName: "Id", width: "50" },
+    { field: "firstName", headerName: "Student Name", width: "200" },
     { field: "uid", headerName: "UID", width: "90" },
     { field: "abcId", headerName: "ABC ID", width: "90" },
-    { field: "OnboardingDate", headerName: "Onboarding Date", width: "150" },
     { field: "cluster", headerName: "Clusters", width: "200", sortable: false },
     { field: "course", headerName: "Course", width: "250", sortable: false },
-    { field: "email", headerName: "Email", width: "250", sortable: false },
+    { field: "emailId", headerName: "Email", width: "250", sortable: false },
     {
       field: "action",
       headerName: "Action",
@@ -25,24 +31,46 @@ function Dashboard() {
       sortable: false,
       renderCell: (params) => (
         <div>
-          <DeleteIcon />
+          <IconButton
+            onClick={() => {
+              DeleteData(params.id);
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
         </div>
       ),
     },
   ];
 
-  // const rows = [
-  //   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  //   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  //   { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  // ];
+  const [row, setRow] = useState([]);
+
+  const getData = () => {
+    return axios.get("/student").then(({ data }) => {
+      const newData = data.data;
+      setRow(newData);
+    });
+  };
 
   useEffect(() => {
-    fetch("http://localhost:5183/api/Student")
-      .then((res) => res.json())
-      .then((json) => this.setRows(...json.map((m) => m.id)))
-      .catch((err) => console.log(err));
+    getData();
   }, []);
+
+  // fetch("http://localhost:5183/api/Student")
+  //   .then(
+  //     (res) =>
+  // console.log(
+  //   res.json().then((res) => {
+  //     console.log(res);
+  //   })
+  //       console.log(res)
+  //)
+  //   )
+  //   .catch((err) => console.log(err));
+
+  //  axios.get("http://localhost:5183/api/Student").then((res)=>{
+  //   const data = res.json();
+  //  }
 
   return (
     <div style={{ marginTop: "1.5rem", marginLeft: "2rem" }}>
@@ -88,7 +116,8 @@ function Dashboard() {
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             pagination
-            rows={rows}
+            rows={row}
+            getRowId={(row) => row.studentId}
             columns={columns}
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

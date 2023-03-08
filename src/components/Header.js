@@ -20,6 +20,7 @@ function Header() {
         <Typography>
           <Link
             style={{ fontSize: "20px", color: "#fff", letterSpacing: "5px" }}
+            to="/"
           >
             Techademy
           </Link>
