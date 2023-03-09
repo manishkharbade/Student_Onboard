@@ -3,7 +3,6 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Manage.scss";
-import AddIcon from "@mui/icons-material/Add";
 import axios from "../AxiosConfig";
 import EducationDetails from "./EducationDetails";
 
