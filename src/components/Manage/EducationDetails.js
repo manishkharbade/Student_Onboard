@@ -17,7 +17,7 @@ function EducationDetails({ educationDetailsChange }) {
   const [formValues, setFormValues] = useState(educationDetails);
   const handleChange = (e, id) => {
     const { name, value } = e.target;
-    console.log(id);
+    // console.log(id);
     const newValues = formValues.map((item) => {
       if (item.id === id) {
         item[name] = value;
@@ -93,7 +93,6 @@ function EducationDetails({ educationDetailsChange }) {
               onChange={(event) => handleChange(event, item.id)}
             />
           </Grid>
-
           <Grid
             item
             alignItems="center"
@@ -101,7 +100,9 @@ function EducationDetails({ educationDetailsChange }) {
             xs={3}
             style={{ outlineColor: "#00224B" }}
           ></Grid>
+
         </Grid>
+
       </div>
     );
   });
@@ -110,6 +111,8 @@ function EducationDetails({ educationDetailsChange }) {
       <h3>Educational Details</h3>
       <hr style={{ marginRight: "2rem", marginBottom: "1rem" }} />
       {Details}
+
+
       <Button
         variant="outlined"
         size="small"
@@ -122,6 +125,7 @@ function EducationDetails({ educationDetailsChange }) {
       >
         <AddIcon /> Add Education
       </Button>
+
     </div>
   );
 }
